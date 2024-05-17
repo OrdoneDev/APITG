@@ -10,8 +10,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      perfil.hasMany(models.questionarios, {
-        foreignKey: 'id_perfil'
+      this.hasMany(models.arquivo_compartilhado, {
+        foreignKey: 'id_perfil', as: 'id_perfil'
+      })
+      this.hasMany(models.likes_publicacao, {
+        foreignKey: 'id_perfil', as: 'id_perfil'
+      })
+      this.hasMany(models.amizade, {
+        foreignKey: 'id_perfil', as: 'id_perfil'
+      })
+      this.hasMany(models.amizade, {
+        foreignKey: 'id_amigo', as: 'id_amigo'
       })
     }
   }
@@ -34,14 +43,26 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(120),
       allowNull: false
     },
-    data_nascimento: DataTypes.DATE(),
+    data_nascimento: {
+      type: DataTypes.DATE(),
+      allowNull: true
+    },
     sexo: {
       type: DataTypes.CHAR(1),
       allowNull: false
     },
-    foto: DataTypes.BLOB,
-    biografia: DataTypes.STRING(1200),
-    autenticacao: DataTypes.STRING,
+    foto: {
+      type: DataTypes.BLOB,
+      allowNull: true
+    },
+    biografia: {
+      type: DataTypes.STRING(1200),
+      allowNull: true
+    },
+    autenticacao: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     cancelado: { 
       type: DataTypes.BOOLEAN,
       allowNull: false
@@ -49,6 +70,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'perfil',
+    tableName: 'perfil',
     freezeTableName: true,
   });
   return perfil;

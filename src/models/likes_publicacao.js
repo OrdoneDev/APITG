@@ -3,45 +3,41 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class comunidade extends Model {
+  class likes_publicacao extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    static associate(models) {
+      this.belongsTo(models.perfil, {
+        foreignKey: 'id_perfil', as: 'id_perfil'
+      })
+      this.belongsTo(models.publicacao, {
+        foreignKey: 'id_publicacao', as: 'id_publicacao'
+      })
+    }
   }
-  comunidade.init({
-    id_comunidade: {
+  likes_publicacao.init({
+    id_like: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true
     },
-    foto: {
-      type: DataTypes.BLOB,
-      allowNull: true
-    },
-    nome: {
-      type: DataTypes.STRING(80),
+    id_perfil: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
-    descricao: {
-      type: DataTypes.STRING(1200),
+    id_publicacao: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
-    visibilidade: {
-      type: DataTypes.TINYINT,
-      allowNull: false
-    },
-    cancelado: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
-    }
   }, {
     sequelize,
-    modelName: 'comunidade',
-    tableName: 'comunidade',
+    modelName: 'likes_publicacao',
+    tableName: 'likes_publicacao',
     freezeTableName: true,
   });
-  return comunidade;
+  return likes_publicacao;
 };

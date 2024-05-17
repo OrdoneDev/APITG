@@ -3,38 +3,42 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class respostas extends Model {
+  class publicacao extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      respostas.belongsTo(models.perguntas, {
-        foreignKey: 'id_pergunta'
+      this.hasMany(models.likes_publicacao, {
+        foreignKey: 'id_publicacao', as: 'id_publicacao'
       })
     }
   }
-  respostas.init({
-    id_resposta: {
+  publicacao.init({
+    id_publicacao: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true
     },
-    data: {
-      type: DataTypes.TEXT,
-      get: function() {
-        return JSON.parse(this.getDataValue("respostas"));
-      },
-      set: function(value) {
-        return this.setDataValue("respostas", JSON.stringify(value));
-      }
-    }
+    descricao: {
+      type: DataTypes.STRING(1200),
+      allowNull: false
+    },
+    data_publicacao: {
+      type: DataTypes.DATE(),
+      allowNull: false
+    },
+    cancelado: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
   }, {
     sequelize,
-    modelName: 'respostas',
+    modelName: 'publicacao',
+    tableName: 'publicacao',
     freezeTableName: true,
   });
-  return respostas;
+  return publicacao;
 };
