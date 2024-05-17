@@ -3,50 +3,45 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class comunidade extends Model {
+  class membro_comunidade extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.hasMany(models.membro_comunidade, {
+      this.belongsTo(models.perfil, {
+        foreignKey: 'id_perfil', as: 'id_perfil'
+      })
+      this.belongsTo(models.comunidade, {
         foreignKey: 'id_comunidade', as: 'id_comunidade'
       })
     }
   }
-  comunidade.init({
-    id_comunidade: {
+  membro_comunidade.init({
+    id_membro: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true
     },
-    foto: {
-      type: DataTypes.BLOB,
-      allowNull: true
-    },
-    nome: {
-      type: DataTypes.STRING(80),
+    id_perfil: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
-    descricao: {
-      type: DataTypes.STRING(1200),
+    id_comunidade: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
-    visibilidade: {
+    cargo: {
       type: DataTypes.TINYINT,
       allowNull: false
     },
-    cancelado: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
-    }
   }, {
     sequelize,
-    modelName: 'comunidade',
-    tableName: 'comunidade',
+    modelName: 'membro_comunidade',
+    tableName: 'membro_comunidade',
     freezeTableName: true,
   });
-  return comunidade;
+  return membro_comunidade;
 };
