@@ -3,39 +3,38 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class publicacao extends Model {
+  class comentario extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.hasMany(models.likes_publicacao, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
+      this.hasMany(models.foto_comentario, {
+        foreignKey: 'id_comentario', as: 'id_comentario'
       })
-      this.hasMany(models.arquivo_publicacao, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
+      this.belongsTo(models.perfil, {
+        foreignKey: 'id_perfil', as: 'id_perfil'
       })
-      this.hasMany(models.comentario, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
-      })
-      this.hasMany(models.foto_publicacao, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
-      })
-      this.hasMany(models.post_perfil, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
-      })
-      this.hasMany(models.post_comunidade, {
+      this.belongsTo(models.publicacao, {
         foreignKey: 'id_publicacao', as: 'id_publicacao'
       })
     }
   }
-  publicacao.init({
-    id_publicacao: {
+  comentario.init({
+    id_comentario: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true
+    },
+    id_perfil: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    id_publicacao: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     descricao: {
       type: DataTypes.STRING(1200),
@@ -51,9 +50,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'publicacao',
-    tableName: 'publicacao',
+    modelName: 'comentario',
+    tableName: 'comentario',
     freezeTableName: true,
   });
-  return publicacao;
+  return comentario;
 };

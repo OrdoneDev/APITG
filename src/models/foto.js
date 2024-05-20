@@ -3,43 +3,35 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class publicacao extends Model {
+  class foto extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.hasMany(models.likes_publicacao, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
-      })
-      this.hasMany(models.arquivo_publicacao, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
-      })
-      this.hasMany(models.comentario, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
+      this.hasMany(models.foto_comentario, {
+        foreignKey: 'id_foto', as: 'id_foto'
       })
       this.hasMany(models.foto_publicacao, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
-      })
-      this.hasMany(models.post_perfil, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
-      })
-      this.hasMany(models.post_comunidade, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
+        foreignKey: 'id_foto', as: 'id_foto'
       })
     }
   }
-  publicacao.init({
-    id_publicacao: {
+  foto.init({
+    id_foto: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true
     },
+    foto: {
+      type: DataTypes.BLOB,
+      allowNull: false
+    },
     descricao: {
       type: DataTypes.STRING(1200),
-      allowNull: false
+      allowNull: true
     },
     data_publicacao: {
       type: DataTypes.DATE(),
@@ -51,9 +43,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'publicacao',
-    tableName: 'publicacao',
+    modelName: 'foto',
+    tableName: 'foto',
     freezeTableName: true,
   });
-  return publicacao;
+  return foto;
 };

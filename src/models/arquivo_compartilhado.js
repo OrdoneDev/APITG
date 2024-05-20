@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.arquivo_publicacao, {
         foreignKey: 'id_arquivo_compartilhado', as: 'id_arquivo_compartilhado'
       })
+      this.hasMany(models.avaliacao_arquivo, {
+        foreignKey: 'id_arquivo_compartilhado', as: 'id_arquivo_compartilhado'
+      })
     }
   }
   arquivo_compartilhado.init({

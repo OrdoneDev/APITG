@@ -16,6 +16,18 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.arquivo_compartilhado, {
         foreignKey: 'id_perfil', as: 'id_perfil'
       })
+      this.hasMany(models.avaliacao_arquivo, {
+        foreignKey: 'id_perfil', as: 'id_perfil'
+      })
+      this.hasMany(models.comentario, {
+        foreignKey: 'id_perfil', as: 'id_perfil'
+      })
+      this.hasMany(models.post_perfil, {
+        foreignKey: 'id_perfil', as: 'id_perfil'
+      })
+      this.hasMany(models.post_comunidade, {
+        foreignKey: 'id_perfil', as: 'id_perfil'
+      })
       this.hasMany(models.likes_publicacao, {
         foreignKey: 'id_perfil', as: 'id_perfil'
       })
