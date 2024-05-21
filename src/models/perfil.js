@@ -11,31 +11,31 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.hasMany(models.membro_comunidade, {
-        foreignKey: 'id_perfil', as: 'id_perfil'
+        foreignKey: 'id_perfil'
       })
       this.hasMany(models.arquivo_compartilhado, {
-        foreignKey: 'id_perfil', as: 'id_perfil'
+        foreignKey: 'id_perfil'
       })
       this.hasMany(models.avaliacao_arquivo, {
-        foreignKey: 'id_perfil', as: 'id_perfil'
+        foreignKey: 'id_perfil'
       })
       this.hasMany(models.comentario, {
-        foreignKey: 'id_perfil', as: 'id_perfil'
+        foreignKey: 'id_perfil'
       })
       this.hasMany(models.post_perfil, {
-        foreignKey: 'id_perfil', as: 'id_perfil'
+        foreignKey: 'id_perfil'
       })
       this.hasMany(models.post_comunidade, {
-        foreignKey: 'id_perfil', as: 'id_perfil'
+        foreignKey: 'id_perfil'
       })
       this.hasMany(models.likes_publicacao, {
-        foreignKey: 'id_perfil', as: 'id_perfil'
+        foreignKey: 'id_perfil'
       })
       this.hasMany(models.amizade, {
-        foreignKey: 'id_perfil', as: 'id_perfil'
+        foreignKey: 'id_perfil'
       })
       this.hasMany(models.amizade, {
-        foreignKey: 'id_amigo', as: 'id_amigo'
+        foreignKey: 'id_amigo'
       })
     }
   }
@@ -86,6 +86,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'perfil',
     tableName: 'perfil',
+    createdAt: false,
+    updatedAt: false,
     freezeTableName: true,
   });
   return perfil;

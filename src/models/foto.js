@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.hasMany(models.foto_comentario, {
-        foreignKey: 'id_foto', as: 'id_foto'
+        foreignKey: 'id_foto'
       })
       this.hasMany(models.foto_publicacao, {
-        foreignKey: 'id_foto', as: 'id_foto'
+        foreignKey: 'id_foto'
       })
     }
   }
@@ -45,6 +45,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'foto',
     tableName: 'foto',
+    createdAt: false,
+    updatedAt: false,
     freezeTableName: true,
   });
   return foto;

@@ -11,13 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.perfil, {
-        foreignKey: 'id_perfil', as: 'id_perfil'
+        foreignKey: 'id_perfil'
       })
       this.hasMany(models.arquivo_publicacao, {
-        foreignKey: 'id_arquivo_compartilhado', as: 'id_arquivo_compartilhado'
+        foreignKey: 'id_arquivo_compartilhado'
       })
       this.hasMany(models.avaliacao_arquivo, {
-        foreignKey: 'id_arquivo_compartilhado', as: 'id_arquivo_compartilhado'
+        foreignKey: 'id_arquivo_compartilhado'
       })
     }
   }
@@ -60,6 +60,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'arquivo_compartilhado',
     tableName: 'arquivo_compartilhado',
+    createdAt: false,
+    updatedAt: false,
     freezeTableName: true,
   });
   return arquivo_compartilhado;

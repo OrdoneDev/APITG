@@ -476,7 +476,7 @@ AFTER INSERT ON Comentario
 FOR EACH ROW
 BEGIN
     INSERT INTO LOG_Comentario(id_comentario, id_perfil, id_publicacao, descricao, data_publicacao, cancelado, data)
-    VALUES (NEW.id_comentario, NEW.id_perfil, NEW.descricao, NEW.data_publicacao, NEW.cancelado, NOW());
+    VALUES (NEW.id_comentario, NEW.id_perfil, NEW.id_publicacao, NEW.descricao, NEW.data_publicacao, NEW.cancelado, NOW());
 END;//
 DELIMITER ;
 
@@ -486,7 +486,7 @@ AFTER UPDATE ON Comentario
 FOR EACH ROW
 BEGIN
     INSERT INTO LOG_Comentario(id_comentario, id_perfil, id_publicacao, descricao, data_publicacao, cancelado, data)
-    VALUES (NEW.id_comentario, NEW.id_perfil, NEW.descricao, NEW.data_publicacao, NEW.cancelado, NOW());
+    VALUES (NEW.id_comentario, NEW.id_perfil, NEW.id_publicacao, NEW.descricao, NEW.data_publicacao, NEW.cancelado, NOW());
 END;//
 DELIMITER ;
 
@@ -543,6 +543,7 @@ CREATE TABLE LOG_Foto_comentario (
 	id_foto int NOT NULL,
     id_comentario int NOT NULL,
     data datetime,
+    FOREIGN KEY (id_foto_comentario) REFERENCES Foto_comentario(id_foto_comentario),
     FOREIGN KEY (id_foto) REFERENCES Foto(id_foto),
     FOREIGN KEY (id_comentario) REFERENCES Comentario(id_comentario)
 );
@@ -577,9 +578,11 @@ CREATE TABLE Foto_publicacao (
 
 CREATE TABLE LOG_Foto_publicacao (
     id_log int PRIMARY KEY AUTO_INCREMENT,
+    id_foto_publicacao int NOT NULL,
 	id_foto int NOT NULL,
     id_publicacao int NOT NULL,
     data datetime,
+    FOREIGN KEY (id_foto_publicacao) REFERENCES Foto_publicacao(id_foto_publicacao),
     FOREIGN KEY (id_foto) REFERENCES Foto(id_foto),
     FOREIGN KEY (id_publicacao) REFERENCES Publicacao(id_publicacao)
 );

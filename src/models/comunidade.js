@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.hasMany(models.membro_comunidade, {
-        foreignKey: 'id_comunidade', as: 'id_comunidade'
+        foreignKey: 'id_comunidade'
       })
       this.hasMany(models.post_comunidade, {
-        foreignKey: 'id_comunidade', as: 'id_comunidade'
+        foreignKey: 'id_comunidade'
       })
     }
   }
@@ -49,6 +49,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'comunidade',
     tableName: 'comunidade',
+    createdAt: false,
+    updatedAt: false,
     freezeTableName: true,
   });
   return comunidade;

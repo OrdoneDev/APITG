@@ -11,22 +11,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.hasMany(models.likes_publicacao, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
+        foreignKey: 'id_publicacao'
       })
       this.hasMany(models.arquivo_publicacao, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
+        foreignKey: 'id_publicacao'
       })
       this.hasMany(models.comentario, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
+        foreignKey: 'id_publicacao'
       })
       this.hasMany(models.foto_publicacao, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
+        foreignKey: 'id_publicacao'
       })
       this.hasMany(models.post_perfil, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
+        foreignKey: 'id_publicacao'
       })
       this.hasMany(models.post_comunidade, {
-        foreignKey: 'id_publicacao', as: 'id_publicacao'
+        foreignKey: 'id_publicacao'
       })
     }
   }
@@ -53,6 +53,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'publicacao',
     tableName: 'publicacao',
+    createdAt: false,
+    updatedAt: false,
     freezeTableName: true,
   });
   return publicacao;
