@@ -19,7 +19,7 @@ class PerfilController {
 
             return res.status(200).json(perfil)
         } catch(error) {
-            return res.status(500).json(error.message)
+            return res.status(500).json({return: false, message: error.message})
         }
     }
 
@@ -29,9 +29,9 @@ class PerfilController {
 
         try {
             const newPerfil = await database.perfil.create(perfilDTO)
-            return res.status(201).json(newPerfil !== null)
+            return res.status(201).json({return: {return: newPerfil !== null}})
         } catch(error) {
-            return res.status(500).json(error.message)
+            return res.status(500).json({return: false, message: error.message})
         }
     }
 
@@ -41,10 +41,10 @@ class PerfilController {
         const perfilDTO = { nome, foto, senha, data_nascimento, sexo, biografia }
 
         try {
-            const perfilUpdated = await database.perfil.update(perfilDTO, {where: { id_perfil }, returning: true})
-            return res.status(204).json(perfilUpdated !== null)
+            const updatedPerfil = await database.perfil.update(perfilDTO, {where: { id_perfil }, returning: true})
+            return res.status(204).json({return: {return: updatedPerfil !== null}})
         } catch(error) {
-            return res.status(500).json(error.message)
+            return res.status(500).json({return: false, message: error.message})
         }
     }
 }
