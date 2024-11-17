@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
-const Comentario = sequelize.define('comentario', {
-    id_comentario: {
+const ArquivoCompartilhado = sequelize.define('arquivocompartilhado', {
+    id_arquivo_compartilhado: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
@@ -15,45 +15,42 @@ const Comentario = sequelize.define('comentario', {
             key: 'id_entidade'
         }
     },
-    id_publicacao: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'publicacao',
-            key: 'id_publicacao'
-        }
+    titulo: {
+        type: DataTypes.STRING(80),
+        allowNull: false
+    },
+    arquivo: {
+        type: DataTypes.BLOB,
+        allowNull: false
     },
     descricao: {
         type: DataTypes.STRING(1200),
-        allowNull: false
+        allowNull: true
+    },
+    score_medio: {
+        type: DataTypes.FLOAT,
+        allowNull: true
     },
     cancelado: {
         type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
+        allowNull: false
     },
     data_publicacao: {
         type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW
+        allowNull: false
     },
     data_atualizacao: {
         type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW
+        allowNull: false
     }
 }, {
     sequelize,
-    modelName: 'comentario',
-    tableName: 'comentario',
+    modelName: 'arquivocompartilhado',
+    tableName: 'arquivocompartilhado',
     timestamps: false,
-    paranoid: true,
     indexes: [
         {
             fields: ['id_entidade']
-        },
-        {
-            fields: ['id_publicacao']
         },
         {
             fields: ['data_publicacao']
@@ -64,4 +61,4 @@ const Comentario = sequelize.define('comentario', {
     ]
 });
 
-export default Comentario;
+export default ArquivoCompartilhado;

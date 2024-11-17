@@ -1,45 +1,56 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class amizade extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      this.belongsTo(models.perfil, {
-        foreignKey: 'id_perfil'
-      })
-      this.belongsTo(models.perfil, {
-        foreignKey: 'id_amigo'
-      })
-    }
-  }
-  amizade.init({
+import { DataTypes } from "sequelize";
+import sequelize from "../config/database.js";
+
+const Amizade = sequelize.define(
+  "amizade",
+  {
     id_amizade: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      primaryKey: true,
       autoIncrement: true,
-      primaryKey: true
     },
-    id_perfil: {
+    id_entidade1: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: "entidade",
+        key: "id_entidade",
+      },
     },
-    id_amigo: {
+    id_entidade2: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: "entidade",
+        key: "id_entidade",
+      },
     },
-  }, {
+    status: {
+      type: DataTypes.STRING(20),
+      allowNull: false,
+      validate: {
+        isIn: [["pendente", "aceito", "recusado"]],
+      },
+    },
+    data_solicitacao: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+    data_resposta: {
+      type: DataTypes.DATE,
+    },
+  },
+  {
     sequelize,
-    modelName: 'amizade',
-    tableName: 'amizade',
-    createdAt: false,
-    updatedAt: false,
-    freezeTableName: true,
-  });
-  return amizade;
-};
+    modelName: "amizade",
+    tableName: "amizade",
+    indexes: [
+      {
+        fields: ["id_entidade1", "id_entidade2"],
+      },
+    ],
+  }
+);
+
+export default Amizade;

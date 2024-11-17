@@ -1,53 +1,42 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class foto extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      this.hasMany(models.foto_comentario, {
-        foreignKey: 'id_foto'
-      })
-      this.hasMany(models.foto_publicacao, {
-        foreignKey: 'id_foto'
-      })
-    }
-  }
-  foto.init({
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js';
+
+const Foto = sequelize.define('foto', {
     id_foto: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
     },
     foto: {
-      type: DataTypes.BLOB,
-      allowNull: false
+        type: DataTypes.BLOB,
+        allowNull: false
     },
     descricao: {
-      type: DataTypes.STRING(1200),
-      allowNull: true
-    },
-    data_publicacao: {
-      type: DataTypes.DATE(),
-      allowNull: false
+        type: DataTypes.STRING(1200)
     },
     cancelado: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
+        type: DataTypes.BOOLEAN,
+        allowNull: false
     },
-  }, {
+    data_publicacao: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    data_atualizacao: {
+        type: DataTypes.DATE,
+        allowNull: false
+    }
+}, {
     sequelize,
     modelName: 'foto',
-    tableName: 'foto',
-    createdAt: false,
-    updatedAt: false,
-    freezeTableName: true,
-  });
-  return foto;
-};
+    indexes: [
+        {
+            fields: ['data_publicacao']
+        },
+        {
+            fields: ['cancelado']
+        }
+    ]
+});
+
+export default Foto;

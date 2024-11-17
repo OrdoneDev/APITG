@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
-const Comentario = sequelize.define('comentario', {
-    id_comentario: {
+const AvaliacaoArquivo = sequelize.define('avaliacaoarquivo', {
+    id_avaliacao: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
@@ -15,48 +15,48 @@ const Comentario = sequelize.define('comentario', {
             key: 'id_entidade'
         }
     },
-    id_publicacao: {
+    id_arquivo_compartilhado: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'publicacao',
-            key: 'id_publicacao'
+            model: 'arquivocompartilhado',
+            key: 'id_arquivo_compartilhado'
         }
     },
     descricao: {
         type: DataTypes.STRING(1200),
+        allowNull: true
+    },
+    score: {
+        type: DataTypes.FLOAT,
         allowNull: false
     },
     cancelado: {
         type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
+        allowNull: false
     },
     data_publicacao: {
         type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW
+        allowNull: false
     },
     data_atualizacao: {
         type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW
+        allowNull: false
     }
 }, {
     sequelize,
-    modelName: 'comentario',
-    tableName: 'comentario',
+    modelName: 'avaliacaoarquivo',
+    tableName: 'avaliacaoarquivo',
     timestamps: false,
-    paranoid: true,
     indexes: [
         {
             fields: ['id_entidade']
         },
         {
-            fields: ['id_publicacao']
+            fields: ['id_arquivo_compartilhado']
         },
         {
-            fields: ['data_publicacao']
+            fields: ['score']
         },
         {
             fields: ['cancelado']
@@ -64,4 +64,4 @@ const Comentario = sequelize.define('comentario', {
     ]
 });
 
-export default Comentario;
+export default AvaliacaoArquivo;

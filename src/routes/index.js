@@ -1,9 +1,27 @@
-const bodyParser = require('body-parser')
-const perfil = require('./perfilRoute')
+import bodyParser from 'body-parser'
+import entidadeRouter from './entidadeRouter.js'
+import amizadeRouter from './amizadeRouter.js'
+import loginRouter from './loginRouter.js'
+import fotoRouter from './fotoRouter.js'
+import publicacaoRouter from './publicacaoRouter.js'
+import comentarioRouter from './comentarioRouter.js'
+import arquivoCompartilhadoRouter from './arquivoCompartilhadoRouter.js'
+import avaliacaoArquivoRouter from './avaliacaoArquivoRouter.js'
+import membroComunidadeRouter from './membroComunidadeRouter.js'
 
-module.exports = app => {
+const routes = (app) => {
     app.use(
         bodyParser.json(),
-        perfil
+        entidadeRouter,
+        amizadeRouter,
+        loginRouter,
+        fotoRouter,
+        publicacaoRouter,
+        comentarioRouter,
+        arquivoCompartilhadoRouter,
+        avaliacaoArquivoRouter,
+        membroComunidadeRouter,
     )
 }
+
+export default routes

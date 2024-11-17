@@ -1,30 +1,78 @@
-const database = require('../models')
+import MembroComunidade from '../models/membroComunidade.js';
+import { validationResult } from 'express-validator';
 
-class MembroComunidadeController {
-    static async create(req, res) {
-        const { email, senha, autenticacao } = req.body
-        const perfilDTO = { email, senha, autenticacao }
-
-        try {
-            const newPerfil = await database.perfil.create(perfilDTO)
-            return res.status(201).json({return: newPerfil !== null})
-        } catch(error) {
-            return res.status(500).json({return: false, message: error.message})
+export const insertMembroComunidade = async (req, res) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
         }
+
+        const { id_entidade, id_comunidade, cargo, status } = req.body;
+        const newMembroComunidade = await MembroComunidade.create({ id_entidade, id_comunidade, cargo, status });
+        res.status(201).json(newMembroComunidade);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
+};
 
-    static async update(req, res) {
-        const { id_perfil } = req.params
-        const { nome, foto, senha, data_nascimento, sexo, biografia } = req.body
-        const perfilDTO = { nome, foto, senha, data_nascimento, sexo, biografia }
-
-        try {
-            const updatedPerfil = await database.perfil.update(perfilDTO, {where: { id_perfil }, returning: true})
-            return res.status(204).json({return: updatedPerfil !== null})
-        } catch(error) {
-            return res.status(500).json({return: false, message: error.message})
+export const updateMembroComunidade = async (req, res) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
         }
-    }
-}
 
-module.exports = MembroComunidadeController
+        const { id } = req.params;
+        const { id_entidade, id_comunidade, cargo, status } = req.body;
+        const [updated] = await MembroComunidade.update({ id_entidade, id_comunidade, cargo, status }, {
+            where: { id_membro: id }
+        });
+
+        if (updated) {
+            const updatedMembroComunidade = await MembroComunidade.findByPk(id);
+            res.status(200).json(updatedMembroComunidade);
+        } else {
+            res.status(404).json({ error: 'MembroComunidade not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getMembroComunidadeById = async (req, res) => {
+    try {
+        const membroComunidade = await MembroComunidade.findByPk(req.params.id);
+        if (membroComunidade) {
+            res.status(200).json(membroComunidade);
+        } else {
+            res.status(404).json({ error: 'MembroComunidade not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getMembroComunidades = async (req, res) => {
+    try {
+        const membroComunidades = await MembroComunidade.findAll();
+        res.status(200).json(membroComunidades);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const deleteMembroComunidade = async (req, res) => {
+    try {
+        const deleted = await MembroComunidade.destroy({
+            where: { id_membro: req.params.id }
+        });
+        if (deleted) {
+            res.status(204).json();
+        } else {
+            res.status(404).json({ error: 'MembroComunidade not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
