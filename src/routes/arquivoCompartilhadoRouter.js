@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
+import verifyToken from "../middlewares/verifyToken.js"
 
 import {
   insertArquivoCompartilhado,
@@ -17,7 +18,7 @@ router
   .get(
     "/arquivocompartilhado/:id",
     [param("id").isInt().withMessage("ID must be an integer")],
-    getArquivoCompartilhadoById
+    verifyToken, getArquivoCompartilhadoById
   )
 
   .post(
@@ -28,7 +29,7 @@ router
       body("arquivo").notEmpty().withMessage("Arquivo is required"),
       body("cancelado").isBoolean().withMessage("Cancelado must be a boolean"),
     ],
-    insertArquivoCompartilhado
+    verifyToken, insertArquivoCompartilhado
   )
 
   .put(
@@ -40,13 +41,13 @@ router
       body("arquivo").notEmpty().withMessage("Arquivo is required"),
       body("cancelado").isBoolean().withMessage("Cancelado must be a boolean"),
     ],
-    updateArquivoCompartilhado
+    verifyToken, updateArquivoCompartilhado
   )
 
   .delete(
     "/arquivocompartilhado/:id",
     [param("id").isInt().withMessage("ID must be an integer")],
-    deleteArquivoCompartilhado
+    verifyToken, deleteArquivoCompartilhado
   );
 
 export default router;

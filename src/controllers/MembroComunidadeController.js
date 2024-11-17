@@ -53,7 +53,7 @@ export const getMembroComunidadeById = async (req, res) => {
     }
 };
 
-export const getMembroComunidades = async (req, res) => {
+export const getMembrosComunidade = async (req, res) => {
     try {
         const membroComunidades = await MembroComunidade.findAll();
         res.status(200).json(membroComunidades);

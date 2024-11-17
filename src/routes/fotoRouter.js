@@ -1,6 +1,7 @@
 // fotoRoutes.js
 import { Router } from "express";
 import { body, param } from "express-validator";
+import verifyToken from "../middlewares/verifyToken.js"
 
 import {
   insertFoto,
@@ -13,12 +14,12 @@ import {
 const router = Router();
 
 router
-  .get("/fotos/", getFotos)
+  .get("/fotos/", verifyToken, getFotos)
 
   .get(
     "/foto/:id",
     [param("id").isInt().withMessage("ID must be an integer")],
-    getFotoById
+    verifyToken, getFotoById
   )
 
   .post(
@@ -33,7 +34,7 @@ router
         .isISO8601()
         .withMessage("Data_atualizacao must be a valid date"),
     ],
-    insertFoto
+    verifyToken, insertFoto
   )
 
   .put(
@@ -49,13 +50,13 @@ router
         .isISO8601()
         .withMessage("Data_atualizacao must be a valid date"),
     ],
-    updateFoto
+    verifyToken, updateFoto
   )
 
   .delete(
     "/foto/:id",
     [param("id").isInt().withMessage("ID must be an integer")],
-    deleteFoto
+    verifyToken, deleteFoto
   );
 
 export default router;

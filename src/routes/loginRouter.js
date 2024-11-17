@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
+import verifyToken from "../middlewares/verifyToken.js"
 
 import {
     createLogin,
@@ -24,7 +25,7 @@ router
     )
 
     .post(
-        '/authenticate',
+        '/auth/login/',
         [
             body('email').isEmail().withMessage('Invalid email format'),
             body('senha').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
@@ -39,11 +40,11 @@ router
             body('email').optional().isEmail().withMessage('Invalid email format'),
             body('senha').optional().isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
         ],
-        updateLogin
+        verifyToken, updateLogin
     )
 
-    .delete('/login/:id', deleteLogin)
-    .get('/login/:id', getLoginById)
-    .get('/logins/', getLogins)
+    .delete('/login/:id', verifyToken, deleteLogin)
+    .get('/login/:id', verifyToken, getLoginById)
+    .get('/logins/', verifyToken, getLogins)
 
 export default router;

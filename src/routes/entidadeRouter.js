@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import verifyToken from "../middlewares/verifyToken.js"
 
 import { createEntidade, 
     getEntitades, 
@@ -8,9 +9,9 @@ import { createEntidade,
 const router = Router()
 
 router
-    .get('/entidades', getEntitades)
-    .get('/entidades/:id', getEntidadeById)
+    .get('/entidades', verifyToken, getEntitades)
+    .get('/entidades/:id', verifyToken, getEntidadeById)
     .post('/entidades', createEntidade)
-    .put('/entidades/:id', updateEntidade)
+    .put('/entidades/:id', verifyToken, updateEntidade)
 
 export default router

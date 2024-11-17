@@ -1,6 +1,8 @@
-import Login from "../models/login.js";
-import bcrypt from 'bcrypt';
 import { validationResult } from "express-validator";
+import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken"
+
+import Login from "../models/login.js";
 
 export const createLogin = async (req, res) => {
   const errors = validationResult(req);
@@ -18,19 +20,34 @@ export const createLogin = async (req, res) => {
 
 export const authenticateLogin = async (req, res) => {
   const { email, senha } = req.body;
+  const secretKey = process.env.SECRET_KEY;
 
   try {
-      const login = await Login.findOne({ where: { email } });
+      const login = await Login.findOne({ where: { email, senha } });
+
       if (!login) {
           return res.status(404).json({ error: 'User not found' });
       }
 
-      const isMatch = await bcrypt.compare(senha, login.senha);
-      if (!isMatch) {
-          return res.status(400).json({ error: 'Invalid credentials' });
+      // const isMatch = await bcrypt.compare(senha, login.senha);
+      // if (!isMatch) {
+      //     return res.status(400).json({ error: 'Invalid credentials' });
+      // }
+      
+      var dtLogin = { ... login.dataValues };
+
+      const payload = {
+        id: dtLogin.id_login,
+        email: dtLogin.email,
       }
 
-      res.status(200).json({ message: 'Authenticated successfully' });
+      const options = {
+        expiresIn: '1d'
+      }
+
+      const token = jwt.sign(payload, secretKey, options);
+
+      res.status(200).json({ message: 'Authenticated successfully', user: {user_id: dtLogin.id_login, token: token}});
   } catch (error) {
       res.status(500).json({ error: error.message });
   }

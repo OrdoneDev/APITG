@@ -1,23 +1,24 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
+import verifyToken from "../middlewares/verifyToken.js"
 
 import {
   insertMembroComunidade,
   updateMembroComunidade,
   getMembroComunidadeById,
-  getMembroComunidades,
+  getMembrosComunidade,
   deleteMembroComunidade,
 } from "../controllers/membroComunidadeController.js";
 
 const router = Router();
 
 router
-  .get("/membros/", getMembroComunidades)
+  .get("/membros/", verifyToken, getMembrosComunidade)
 
   .get(
     "/membro/:id",
     [param("id").isInt().withMessage("ID must be an integer")],
-    getMembroComunidadeById
+    verifyToken, getMembroComunidadeById
   )
 
   .post(
@@ -28,7 +29,7 @@ router
       body("cargo").isInt().withMessage("Cargo is required"),
       body("status").isIn(['pendente', 'aceito', 'recusado']).withMessage("Status must be 'pendente', 'aceito', or 'recusado'"),
     ],
-    insertMembroComunidade
+    verifyToken, insertMembroComunidade
   )
 
   .put(
@@ -40,13 +41,13 @@ router
       body("cargo").isInt().withMessage("Cargo is required"),
       body("status").isIn(['pendente', 'aceito', 'recusado']).withMessage("Status must be 'pendente', 'aceito', or 'recusado'"),
     ],
-    updateMembroComunidade
+    verifyToken, updateMembroComunidade
   )
 
   .delete(
     "/membro/:id",
     [param("id").isInt().withMessage("ID must be an integer")],
-    deleteMembroComunidade
+    verifyToken, deleteMembroComunidade
   );
 
 export default router;

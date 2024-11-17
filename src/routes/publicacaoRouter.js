@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
+import verifyToken from "../middlewares/verifyToken.js"
 
 import {
   insertPublicacao,
@@ -12,12 +13,12 @@ import {
 const router = Router();
 
 router
-  .get("/publicacoes/", getPublicacoes)
+  .get("/publicacoes/", verifyToken, getPublicacoes)
 
   .get(
     "/publicacao/:id",
     [param("id").isInt().withMessage("ID must be an integer")],
-    getPublicacaoById
+    verifyToken, getPublicacaoById
   )
 
   .post(
@@ -33,7 +34,7 @@ router
         .isISO8601()
         .withMessage("Data_atualizacao must be a valid date"),
     ],
-    insertPublicacao
+    verifyToken, insertPublicacao
   )
 
   .put(
@@ -50,13 +51,13 @@ router
         .isISO8601()
         .withMessage("Data_atualizacao must be a valid date"),
     ],
-    updatePublicacao
+    verifyToken, updatePublicacao
   )
 
   .delete(
     "/publicacao/:id",
     [param("id").isInt().withMessage("ID must be an integer")],
-    deletePublicacao
+    verifyToken, deletePublicacao
   );
 
 export default router;
